@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Header from "../../components/common/header/Header";
+import Footer from "../../components/common/footer/Footer";
 const ClientLayout = () => {
   return (
     <div>
@@ -8,7 +9,7 @@ const ClientLayout = () => {
         <main className="max-w-[1200px] mx-auto ">
           <Outlet />
         </main>
-        <footer className="bg-gray-100 text-center p-4">Footer</footer>
+        <Footer />
       </div>
     </div>
   );
