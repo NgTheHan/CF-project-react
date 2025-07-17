@@ -37,9 +37,14 @@ export default function MainBarHeader() {
           {/* Auth + Cart */}
           <div className="flex items-center gap-4">
             <FaUser />
-            <span className="flex items-center gap-1">
-              <Link to="/login">Đăng nhập</Link> /
-              <Link to="/register">Đăng ký</Link>
+            <span className="flex items-center gap-1 ">
+              <Link className="hover:underline" to="/login">
+                Đăng nhập
+              </Link>{" "}
+              /
+              <Link className="hover:underline" to="/register">
+                Đăng ký
+              </Link>
             </span>
             <Link
               to="/cart"

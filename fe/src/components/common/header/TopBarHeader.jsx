@@ -1,19 +1,17 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FaPhone, FaBook, FaGift } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 const items = [
-  "Kingdom Come: Deliverance II Gold Edition - Tài khoản Steam Offline",
-  "XBox Game Pass",
-  "Giải trí cực Chill",
-  "Kiếm tiền trên Divine Shop",
-  "Bảo vệ máy tính của bạn",
-  "Thiết kế dễ dàng cùng Canva Pro",
+  { name: "Kingdom Come: Deliverance II", query: "Tài khoản Steam Offline" },
+  { name: "XBox Game Pass", query: "xbox game" },
+  { name: "Giải trí cực Chill", query: "Giải trí" },
+  { name: "Thiết kế dễ dàng cùng Canva Pro", query: "Thiết kế" },
 ];
 
 export default function TopBarHeader() {
   const [index, setIndex] = useState(0);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -30,27 +28,22 @@ export default function TopBarHeader() {
     setIndex((prev) => (prev + 1) % items.length);
   };
 
-  const handleClick = () => {
-    const query = encodeURIComponent(items[index]);
-    navigate(`/search?q=${query}`);
-  };
-
   return (
     <div className="bg-blue-700 ">
       <div className="max-w-[1200px] mx-auto text-white text-sm py-2 px-3 flex justify-between">
         <div className="flex items-center ">
           <button onClick={handlePrev}>
-            <ChevronLeft size={18} />
+            <ChevronLeft size={16} />
           </button>
           <button onClick={handleNext}>
-            <ChevronRight size={18} />
+            <ChevronRight size={16} />
           </button>
-          <span
-            onClick={handleClick}
-            className="whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline"
+          <Link
+            to={`/search?q=${encodeURIComponent(items[index].query)}`}
+            className="hover:underline"
           >
-            {items[index]}
-          </span>
+            {items[index].name}
+          </Link>
         </div>
         <div className="flex gap-4 items-center">
           <Link to="/" className="flex items-center gap-1 hover:underline">
