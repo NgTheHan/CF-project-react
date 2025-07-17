@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaSearch,
   FaUser,
@@ -9,7 +9,18 @@ import {
   FaLock,
   FaCreditCard,
 } from "react-icons/fa";
+import { useState } from "react";
 export default function MainBarHeader() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (!searchTerm.trim()) {
+      navigate("/search");
+      return;
+    }
+    navigate(`/search?keyword=${encodeURIComponent(searchTerm.trim())}`);
+  };
   return (
     <div className="bg-blue-600">
       <div className=" max-w-[1200px] mx-auto  text-white py-3 px-4">
@@ -27,9 +38,17 @@ export default function MainBarHeader() {
             <input
               type="text"
               placeholder="Tìm kiếm sản phẩm"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSearch();
+              }}
               className="w-full px-4 py-2 text-black rounded-l focus:outline-none"
             />
-            <button className="bg-blue-700 px-4 rounded-r">
+            <button
+              className="bg-blue-700 px-4 rounded-r"
+              onClick={handleSearch}
+            >
               <FaSearch />
             </button>
           </div>
