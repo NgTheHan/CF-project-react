@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProducts } from "../../api/divine.api";
+import { getAllProducts } from "../../api/divine.api";
 
 export default function SearchPage() {
   const [searchParams] = useSearchParams();
@@ -8,37 +8,31 @@ export default function SearchPage() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await getProducts(query);
-        setProducts(res);
-      } catch (err) {
-        console.error(err);
-      }
+    const fetchData = async () => {
+      const all = await getAllProducts();
+      console.log("📦 Dữ liệu API trả về:", all);
+      const filtered = all.filter((item) =>
+        item.name.toLowerCase().includes(query)
+      );
+      setProducts(filtered);
     };
-    fetchProducts();
+
+    fetchData();
   }, [query]);
 
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">Tìm kiếm sản phẩm</h2>
       <div className="grid grid-cols-4 gap-4">
-        {products.map((item) => (
-          <div
-            key={item.id}
-            className="border rounded p-3 hover:shadow transition"
-          >
-            <img
-              src={item.image}
-              alt={item.name}
-              className="w-full h-40 object-cover"
-            />
-            <h3 className="font-medium mt-2">{item.name}</h3>
-            <p className="text-red-500">
-              {item.price.toLocaleString("vi-VN")}đ
-            </p>
+        {products.length === 0 ? (
+          <p>Không tìm thấy sản phẩm nào.</p>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
